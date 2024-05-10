@@ -22,8 +22,8 @@ export const usersResolver = {
   },
 
   Mutation: {
-    async createUser(_: any, { input }: Record<string, any>) {
-      return await createUser({ email: input.email, username: input.username });
+    async createUser(_: any, { userInput }: Record<string, any>) {
+      return await createUser({ email: userInput.email, username: userInput.username });
     },
     async updateUser() {},
     async deleteUser() {},

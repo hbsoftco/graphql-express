@@ -43,8 +43,6 @@ const getUser = async ({ id, info }: GetUserArgs) => {
 };
 
 const createUser = async ({ email, username }: UserInput) => {
-  console.log({ email, username });
-
   const createdUser = await prisma.user.create({
     data: {
       email,

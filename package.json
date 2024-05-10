@@ -13,11 +13,13 @@
   "license": "ISC",
   "dependencies": {
     "@apollo/server": "^4.10.4",
+    "@prisma/client": "^5.13.0",
     "cors": "^2.8.5",
     "dotenv-safe": "^9.1.0",
     "graphql": "^16.8.1",
     "pino": "^9.0.0",
-    "pino-pretty": "^11.0.0"
+    "pino-pretty": "^11.0.0",
+    "prisma": "^5.13.0"
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",

@@ -3,7 +3,7 @@ import express, { json, urlencoded } from "express";
 import cors from "cors";
 import { ApolloServer } from "@apollo/server";
 import { expressMiddleware } from "@apollo/server/express4";
-import { Logger } from "../utils/logger";
+import { Logger } from "./utils/logger";
 
 class Server {
   private app: express.Application;
@@ -17,10 +17,10 @@ class Server {
     this.app = express();
     this.port = port;
 
-    this.startApolloServer();
-
     this.initializeMiddlewares();
     this.initializeRoutes();
+
+    this.startApolloServer();
   }
 
   private async startApolloServer() {
@@ -64,8 +64,6 @@ class Server {
     this.apolloServer = new ApolloServer({ typeDefs, resolvers });
 
     await this.apolloServer.start();
-
-    // Apply Apollo Server middleware to Express app
     this.app.use(
       "/graphql",
       cors<cors.CorsRequest>(),
@@ -74,13 +72,17 @@ class Server {
     );
   }
 
-  private async initializeMiddlewares() {
+  private initializeMiddlewares() {
     this.app.use(cors());
     this.app.use(json());
     this.app.use(urlencoded({ extended: true }));
   }
 
-  private initializeRoutes(): void {}
+  private initializeRoutes(): void {
+    // this.app.use("/", (req, res) => {
+    //   res.send("hossein");
+    // });
+  }
 
   public listen(): void {
     this.app.listen(this.port, () => {

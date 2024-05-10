@@ -4,6 +4,7 @@ import cors from "cors";
 import { ApolloServer } from "@apollo/server";
 import { expressMiddleware } from "@apollo/server/express4";
 import { Logger } from "./utils/logger";
+import { typeDefs, resolvers } from "./graphql";
 
 class Server {
   private app: express.Application;
@@ -24,42 +25,6 @@ class Server {
   }
 
   private async startApolloServer() {
-    const typeDefs = `#graphql
-        type Book {
-          title: String
-          author: String
-        }
-  
-        type Query {
-          books: [Book]
-        }
-      `;
-
-    const books = [
-      {
-        title: "The Awakening",
-        author: "Kate Chopin",
-      },
-      {
-        title: "City of Glass",
-        author: "Paul Auster",
-      },
-      {
-        title: "The Awakening",
-        author: "Kate Chopin",
-      },
-      {
-        title: "City of Glass",
-        author: "Paul Auster",
-      },
-    ];
-
-    const resolvers = {
-      Query: {
-        books: () => books,
-      },
-    };
-
     // Initialize Apollo Server
     this.apolloServer = new ApolloServer({ typeDefs, resolvers });
 
@@ -70,6 +35,10 @@ class Server {
       express.json(),
       expressMiddleware(this.apolloServer)
     );
+
+    this.logger.info(
+      `🚀 Graphql is running on http://localhost:${this.port}/graphql`
+    );
   }
 
   private initializeMiddlewares() {
@@ -78,15 +47,11 @@ class Server {
     this.app.use(urlencoded({ extended: true }));
   }
 
-  private initializeRoutes(): void {
-    // this.app.use("/", (req, res) => {
-    //   res.send("hossein");
-    // });
-  }
+  private initializeRoutes(): void {}
 
   public listen(): void {
     this.app.listen(this.port, () => {
-      this.logger.info(`🚀 Server is running on port ${this.port}`);
+      this.logger.info(`🚀 Server is running on http://localhost:${this.port}`);
     });
   }
 }
